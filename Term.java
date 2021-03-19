@@ -13,6 +13,8 @@ public class Term
     ArrayList<String> aliases = new ArrayList<String>();
     private int knowledge = 0;
     
+    private String key = "";
+    
     /**
      * Constructor for objects of class Term.
      * 
@@ -67,6 +69,16 @@ public class Term
     {
         return definition;
     }
+
+    public void setKey(String k)
+    {
+        key = k;
+    }
+    
+    public String getKey()
+    {
+        return key;
+    }
     
     /**
      * Sets the term definition.
@@ -83,6 +95,6 @@ public class Term
     
     public boolean isValid()
     {
-        return (dispTerm != "" && definition != "");
+        return (dispTerm != "" && definition != "" && key != "Invalid");
     }
 }

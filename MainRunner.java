@@ -15,18 +15,27 @@ public class MainRunner
     JFrame myWindow;
     final String TITLE = "OpenStudy";
     ArrayList<Term> myTerms = new ArrayList<Term>();
-
+    
+    final String DONE = "Done";
+    final String CONTINUE = "Next";
+    final String EXIT = "Exit";
+    
     /**
-     * Constructor for objects of class MainRunner
+     * Creates the window and kicks off basic startup stuff.
      */
     public MainRunner()
     {
+        myWindow = new JFrame(TITLE);
         startup();
+        
     }
 
+    /**
+     * Loads the startup screen.
+     */
     private void startup()
     {
-        myWindow = new JFrame(TITLE);
+        
         myWindow.setVisible(true);
         Object[] options = {"Create a new set",
                 "Open an existing set",
@@ -61,7 +70,19 @@ public class MainRunner
         while (done == false)
         {
             t = getNewTerm();
-            if (t.isValid())
+            System.out.println("Question_");
+            if (t.getKey() == DONE)
+            {
+                done = true;
+            }
+            else if (t.getKey() == EXIT)
+            {
+                done = true;
+                startup();
+                return;
+            }
+            
+            if (t != null && t.isValid())
             {
                 myTerms.add(t);
             }
@@ -77,18 +98,51 @@ public class MainRunner
                 "Term:", word,
                 "Definition:", def
             };
+            
+        String[] options = {CONTINUE,
+                DONE,
+                EXIT};
+        int option = -1;
+        boolean freeToGo = false;
+        
+        String[] autofill = {"",""};
+        String question = "Enter Terms:";
+        int focusObj = 0;
 
-        int option = JOptionPane.showConfirmDialog(
-            null,
-            message, 
-            "Login",
-            JOptionPane.OK_CANCEL_OPTION);
-        if (option == JOptionPane.OK_OPTION) {
-            //idk
-        } else {
-            System.out.println("Login canceled");
+        while (option < 2 && !freeToGo)
+        {
+            message[focusObj].requestFocusInWindow();
+            word.setText(autofill[0]);
+            def.setText(autofill[1]);
+            freeToGo = true;
+            option = JOptionPane.showOptionDialog(
+                null,
+                message, 
+                question,
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
+                options[0]);
+            System.out.println("Word = " + word.getText() + ", Definition = " + def.getText()); 
+            
+            boolean wordEmpty = word.getText().equals("");
+            boolean defEmpty = def.getText().equals("");
+            
+            if (!wordEmpty && defEmpty)
+            {
+                freeToGo = false;
+                question = "Sorry, invalid formatting."; 
+                autofill[0] = word.getText();
+                focusObj = 1; //autofocuses definition instead of word
+                //def.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+            }
         }
         Term aTerm = new Term(word.getText(),def.getText());
+        
+        aTerm.setKey(options[option]);
+        // this just lets the program be able to tell what button you pressed
+        
         return aTerm;
 
     }
