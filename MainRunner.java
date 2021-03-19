@@ -89,6 +89,19 @@ public class MainRunner
         System.out.println("Successfully saved " + curName + ".set to file.");
     }
     
+    
+    public void readFromFile(name) throws IOException 
+    {
+        DataStreams.readFile(name);
+        System.out.println("Successfully saved " + curName + ".set to file.");
+    }
+    
+    public void setKnowledge(int amount)
+    {
+        knowledge = amount
+    }
+    
+    
     public void loadSet()
     {
 

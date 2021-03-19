@@ -66,6 +66,11 @@ public class Term
         return knowledge;
     }
     
+    public void setKnowledge(int k)
+    {
+        knowledge = k;
+    }
+    
     public String getDefinition()
     {
         return definition;
