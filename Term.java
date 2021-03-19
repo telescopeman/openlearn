@@ -10,8 +10,10 @@ public class Term
     // instance variables - replace the example below with your own
     private String dispTerm;
     private String definition;
-    ArrayList<String> aliases = new ArrayList<String>();
+    private ArrayList<String> aliases = new ArrayList<String>();
+    private ArrayList<String> hints = new ArrayList<String>();
     private int knowledge = 0;
+    
     
     private String key = "";
     
@@ -37,11 +39,10 @@ public class Term
         aliases.addAll(alia);
     }
     
-    public void addAlias(String alias)
+    public void addHints(ArrayList<String> newHints)
     {
-        aliases.add(alias);
+        hints.addAll(newHints);
     }
-
     /**
      * Sets the term name.
      *
@@ -68,6 +69,16 @@ public class Term
     public String getDefinition()
     {
         return definition;
+    }
+    
+    public ArrayList<String> getAliases()
+    {
+        return aliases;
+    }
+    
+    public ArrayList<String> getHints()
+    {
+        return hints;
     }
 
     public void setKey(String k)
