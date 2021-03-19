@@ -47,7 +47,7 @@ public class MainRunner
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 options,
-                options[2]);
+                options[0]);
 
         if (choice == 0)
         {
@@ -63,6 +63,10 @@ public class MainRunner
         }
     }
 
+    
+    /**
+     * Creates a new set from scratch.
+     */
     private void createNewSet()
     {
         boolean done = false;
@@ -90,10 +94,18 @@ public class MainRunner
     }
 
     
-    private Term getNewTerm()
+    public Term getNewTerm()
     {
         JTextField word = new JTextField();
         JTextField def = new JTextField();
+        int focusObj = 0;
+        RequestFocusListener rfl = new RequestFocusListener();
+        
+        
+        
+        word.addAncestorListener( rfl );
+        
+        
         Object[] message = {
                 "Term:", word,
                 "Definition:", def
@@ -107,11 +119,11 @@ public class MainRunner
         
         String[] autofill = {"",""};
         String question = "Enter Terms:";
-        int focusObj = 0;
+        
 
         while (option < 2 && !freeToGo)
         {
-            message[focusObj].requestFocusInWindow();
+            // message[focusObj].requestFocusInWindow();
             word.setText(autofill[0]);
             def.setText(autofill[1]);
             freeToGo = true;
@@ -134,7 +146,9 @@ public class MainRunner
                 freeToGo = false;
                 question = "Sorry, invalid formatting."; 
                 autofill[0] = word.getText();
-                focusObj = 1; //autofocuses definition instead of word
+                //autofocuses definition instead of word
+                word.removeAncestorListener( rfl );
+                def.addAncestorListener( rfl );
                 //def.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             }
         }
@@ -152,15 +166,5 @@ public class MainRunner
 
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
-    }
+    
 }
